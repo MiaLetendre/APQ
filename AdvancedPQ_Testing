@@ -1,0 +1,91 @@
+package advancedPQ_Package;
+import advancedPQ_Package.*;
+
+//-----------------------------------------------------
+//Assignment PA3 Comp 352
+//AdvancedPQ 
+//Written by: Mia Letendre 40274681
+//Due: April 4, 2025
+//-----------------------------------------------------
+public class AdvancedPQ_Tester {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		// keys will be ints and the values will be strings
+		AdvancedPQ<Integer, String> arr = new AdvancedPQ<Integer,String>();
+		System.out.println("Array size before inserting elements: " + arr.size());
+		System.out.println("Array is empty check: " + arr.isEmpty());
+		arr.insert(5, "Dr Steve Buscemi");
+		System.out.println("Array is empty after instering one element: " + arr.isEmpty() + "\n");
+		arr.insert(10, "Dr Emma Stone");
+		arr.insert(13, "Dr Damien Chazelle");
+		arr.insert(16, "Dr Yorgos Lanthimos");
+		arr.insert(17, "Dr Justin Hurwitz");
+		arr.insert(17, "Dr Justin Hurwitz");
+		System.out.println("Array at start: " + arr.toString());
+		System.out.println("Array size at start: " + arr.size());
+		System.out.println("Current state of the APQ (True if Min Heap and False if Max Heap): " + arr.state());
+		arr.toggle();
+		System.out.println("Current state of the APQ (True if Min Heap and False if Max Heap): " + arr.state());
+		arr.insert(20, "Dr Hunter Schafer");
+		System.out.println("Array after toggling and inserting: " + arr.toString());
+		System.out.println("Removing top of heap: " + arr.removeTop() + "\n");
+		System.out.println("Array after: " + arr.toString());
+		System.out.println("Array top before inserting: " + arr.top());
+		arr.insert(2, "Dr Hugh Larie");
+		arr.insert(30, "Dr Willem Dafoe");
+		System.out.println("Current state of the APQ (True if Min Heap and False if Max Heap): " + arr.state());
+		System.out.println("Array top after inserting: " + arr.top());
+		arr.toggle();
+		System.out.println("Array size: " + arr.size());
+		System.out.println("Array top after flipping it: " + arr.top() + "\n");
+		System.out.println("Array before removal: " + arr.toString());
+		AdvancedPQ<Integer, String>.Entry<Integer,String> e = arr.new Entry<>(17, "Dr Justin Hurwitz");
+		System.out.println("Removing Dr Justin Hurwitz: " + arr.remove(e));
+		System.out.println("Array after removal: " + arr.toString());
+		e = arr.new Entry<>(10, "Dr Emma Stone");
+		arr.replaceKey(e, 15);
+		System.out.println("Array after changing Dr Emma Stone's key to 15: " + arr.toString());
+		e = arr.new Entry<>(16, "Dr Yorgos Lanthimos");
+		arr.replaceValue(e, "Dr Poor Things Director");
+		System.out.println("Array after changing Dr Yorgos Lanthomos' (key 16) value to Dr Poor Things Director: " + arr.toString());
+		System.out.println("Current state of the APQ (True if Min Heap and False if Max Heap): " + arr.state());
+		arr.toggle();
+		System.out.println("Current state of the APQ (True if Min Heap and False if Max Heap): " + arr.state());
+		System.out.println("Array: " + arr.toString());
+		System.out.println("Peak at 1: " + arr.peakAt(1));
+		System.out.println("Peak at 3: " + arr.peakAt(3));
+		System.out.println("Peak at 6: " + arr.peakAt(6));
+		arr.toggle();
+		System.out.println("Current state of the APQ (True if Min Heap and False if Max Heap): " + arr.state());
+		System.out.println("Array: " + arr.toString());
+		System.out.println("Peak at 1: " + arr.peakAt(1));
+		System.out.println("Peak at 3: " + arr.peakAt(3));
+		System.out.println("Peak at 6: " + arr.peakAt(6));
+		try {
+			arr.peakAt(1000000);
+		} catch (Exception exc){
+			System.out.println("Error given when inserting a value out of reach: " + exc + "\n");
+		}
+		AdvancedPQ<Integer, String> arr2 = new AdvancedPQ<Integer,String>();
+		arr2.insert(6, "Ms Rose Leslie");
+		arr2.insert(11, "Ms Gwendolne Christie");
+		arr2.insert(14, "Mr Kit Harrington");
+		arr2.insert(18, "Ms Natalie Dormer");
+		arr2.insert(19, "The One and Only Pedro Pascal");
+		System.out.println("Array 2 before merging: " + arr2.toString());
+		arr.merge(arr2);
+		System.out.println("Current state of the APQ (True if Min Heap and False if Max Heap): " + arr.state());
+		System.out.println("Array after merging : " + arr.toString());
+		arr.toggle();
+		System.out.println("Current state of the APQ (True if Min Heap and False if Max Heap): " + arr.state());
+		System.out.println("Array after merging and toggling: " + arr.toString());
+
+
+
+
+		
+		
+	}
+
+}
