@@ -1,4 +1,5 @@
 package advancedPQ_Package;
+//only uses one heap, increasing the time complexity of reheap but reducing space complexity
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
@@ -7,49 +8,54 @@ public class AdvancedPQ<K extends Comparable <K>,V> {
 	
 	protected DynamicArray<Entry<K,V>> heapArr ;
 	//dynamic array, parent at i, child at 2i + 1, and 2i+2
-	//need current mode
 	//flexible comparator for min/max mode
 	protected  boolean isMin = true;
 	protected Entry<K,V> recentEntry;
 	protected int posRecEntry = -1;
-	
+
+	//gives the parent 
 	public Entry<K ,V> parent(int i) {
 		if (i == 0) {
 			return null;
 		}
 		return heapArr.arr[(i-1)/2];
 	}
-	
+
+	//default constructor
 	public AdvancedPQ() {
 		heapArr = new DynamicArray<>();
 	}
 	
 
+	//gives the left child locatin
 	public Entry<K,V> leftChild( int i ) {
 		if ((i*2) + 1 >= heapArr.indexLast) {
 			return null;
 		}
 		return heapArr.arr[(2*i)+1];
 	}
-	
+
+	//gives the right child location
 	public Entry<K,V> RightChild( int i ) {
 		if ((i*2) + 2 >= heapArr.indexLast) {
 			return null;
 		}
 		return heapArr.arr[(2*i)+2];
 	}
-	
+
+	//swaps two entries 
 	public void swap (int i, int j) {
 		Entry<K,V> temp = heapArr.arr[i];
 		heapArr.arr[i] = heapArr.arr[j];
 		heapArr.arr[j] = temp;
 	}
 	
-	
+	//returns a boolean that tells if the array is a minheap or not, true if it is, false if not
 	public boolean mode() {
 		return isMin;
 	}
 	
+	//upheaps an entry
 	public int upHeap(int i) {
 		if (i < 1) {
 			return i;
@@ -69,17 +75,8 @@ public class AdvancedPQ<K extends Comparable <K>,V> {
 		}
 			
 	}
-	
-	/*
-	public int findClosestTwo(int i) {
-		int temp = 1;
-		while (i > temp) {
-			temp*=2;
-		}
-		return temp;
-	}
-	*/
-	
+
+	//downheaps an enrty
 	public void downHeap(int i ) {
 		int left = (i*2) +1;
 		int right = (i*2) + 2;
@@ -99,7 +96,8 @@ public class AdvancedPQ<K extends Comparable <K>,V> {
 		}
 		
 	}
-	
+
+	//reheaps the array 
 	public void reHeap() {
 		if (isMin) {
 		for (int i = (heapArr.indexLast -1 ); i >= 0; i--) {
@@ -113,14 +111,16 @@ public class AdvancedPQ<K extends Comparable <K>,V> {
 			
 		
 	}
-	
+
+	//inserts an index
 	public void insert(K k,V v) {
 		Entry<K,V> temp = new Entry<K,V>(k,v);
 		heapArr.add(temp);
 		posRecEntry = upHeap(heapArr.indexLast -1);
 		recentEntry = heapArr.arr[posRecEntry];
 	}
-	
+
+	//remooves the top element, replaces with the most recent elements and downheaps
 	public Entry<K,V> removeTop(){
 		//removes top and replaces with most recent element
 		Entry<K,V> temp = heapArr.arr[0];
@@ -132,7 +132,7 @@ public class AdvancedPQ<K extends Comparable <K>,V> {
 		
 	}
 	
-	
+	//turns the array from max to min or vice versa
 	public void toggle() {
 		isMin = !isMin;
 		//makes the bottom nodes the top nodes
@@ -142,11 +142,12 @@ public class AdvancedPQ<K extends Comparable <K>,V> {
 		reHeap();
 	}
 	
+	//gives the top
 	public Entry<K,V> top(){
 		return heapArr.arr[0];
 	}
 	
-	//throws a NoSuchElementExpetion
+	//removes element, throws a NoSuchElementExpetion, 
 	public Entry<K,V> remove(Entry<K,V> e) throws NoSuchElementException {
 		for (int i = 0; i < heapArr.indexLast; i++) {
 			if (heapArr.arr[i].equals(e)) {
@@ -160,7 +161,8 @@ public class AdvancedPQ<K extends Comparable <K>,V> {
 		}
 		throw new NoSuchElementException();
 	}
-	
+
+	//replaces a key of an enrty
 	public K  replaceKey( Entry<K,V> e, K k) throws NoSuchElementException{
 		for (int i = 0; i < heapArr.indexLast; i++) {
 			if (heapArr.arr[i].equals(e)) {
@@ -172,7 +174,8 @@ public class AdvancedPQ<K extends Comparable <K>,V> {
 		}
 		throw new NoSuchElementException();
 	}
-	
+
+	//replaces value of an enrty
 	public V replaceValue(Entry<K,V> e, V v) throws NoSuchElementException{
 		for (int i = 0; i < heapArr.indexLast; i++) {
 			if (heapArr.arr[i].equals(e)) {
@@ -184,21 +187,21 @@ public class AdvancedPQ<K extends Comparable <K>,V> {
 		throw new NoSuchElementException();
 	}
 	
-	public boolean state() {
-		return isMin;
-	}
-	
+
+	//boolean to tell if heap is empty
 	public boolean isEmpty() {
 		if (heapArr.arr[0] == null) {
 			return true;
 		}
 		return false;
 	}
-	
+
+	//return the size of the heap
 	public int size() {
 		return heapArr.indexLast;
 	}
-	
+
+	//gives the nth largest or smallest element depending on the type of heap
 	public Entry<K,V> peakAt(int n) throws IndexOutOfBoundsException{
 		n = n-1;
 		if (n < 0 || n >= heapArr.indexLast) {
@@ -219,7 +222,8 @@ public class AdvancedPQ<K extends Comparable <K>,V> {
 		return tempEntry;
 		
 	}
-	
+
+	//merges the two APQs
 	public void merge(AdvancedPQ<K,V> otherAPQ) {
 		for (int i = 0; i< otherAPQ.heapArr.indexLast;i++) {
 			this.insert(((Entry<K,V>) otherAPQ.heapArr.arr[i]).getKey(), ((Entry<K,V>) otherAPQ.heapArr.arr[i]).getValue());
@@ -228,7 +232,8 @@ public class AdvancedPQ<K extends Comparable <K>,V> {
 			downHeap(i);
 		}
 	}
-	
+
+	//string representation of the heap
 	public String toString() {
 		String ret = "The following are the values of the heap array:\n";
 		for (int i = 0; i< heapArr.indexLast;i++) {
@@ -236,7 +241,8 @@ public class AdvancedPQ<K extends Comparable <K>,V> {
 		}
 		return ret;
 	}
-	
+
+	//string representation in order
 	public String toStringOrder() {
 		
 		AdvancedPQ<K,V> temp = new AdvancedPQ<K,V>();
@@ -249,7 +255,8 @@ public class AdvancedPQ<K extends Comparable <K>,V> {
 		}
 		return ret;
 	}
-	
+
+	//Class that stores each of the heaps entries
 	public class Entry<K extends Comparable<K>, V>{
 		protected K key;
 		protected V value;
@@ -292,7 +299,8 @@ public class AdvancedPQ<K extends Comparable <K>,V> {
 		}
 	
 	}
-	
+
+	//simple dynamic array class
 	public class DynamicArray <E>{
 			
 			//Default size ten
